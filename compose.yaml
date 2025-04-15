@@ -7,3 +7,5 @@ services:
       - 'POSTGRES_USER=myuser'
     ports:
       - '5432'
+    volumes:
+      - './local-dev/db:/docker-entrypoint-initdb.d'
