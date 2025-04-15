@@ -1,7 +1,7 @@
 package com.zen.recruitment.discount
 
 import com.zen.recruitment.discount.dto.Order
-import com.zen.recruitment.discount.strategy.DiscountStrategyFactory
+import com.zen.recruitment.discount.strategy.interaction.DiscountStrategyFactory
 import org.springframework.stereotype.Component
 import java.math.BigDecimal
 

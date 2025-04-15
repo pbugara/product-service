@@ -6,5 +6,5 @@ import jakarta.persistence.Entity
 @Entity
 @DiscriminatorValue("PERCENTAGE")
 class PercentageDiscount(
-    val percentage: Double
+    val percentage: Int
 ) : Discount()

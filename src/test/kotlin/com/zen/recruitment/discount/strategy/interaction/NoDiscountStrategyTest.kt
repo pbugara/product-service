@@ -1,4 +1,4 @@
-package com.zen.recruitment.discount.strategy
+package com.zen.recruitment.discount.strategy.interaction
 
 import com.zen.recruitment.discount.dto.Order
 import org.junit.jupiter.api.Test

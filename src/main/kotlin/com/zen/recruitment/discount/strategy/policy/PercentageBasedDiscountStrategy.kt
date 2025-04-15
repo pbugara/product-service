@@ -1,14 +1,14 @@
-package com.zen.recruitment.discount.strategy
+package com.zen.recruitment.discount.strategy.policy
 
-import com.zen.recruitment.discount.QuantityDiscountRetrieval
+import com.zen.recruitment.discount.PercentageDiscountRetrieval
 import com.zen.recruitment.discount.dto.Order
 import org.springframework.stereotype.Component
 import java.math.BigDecimal
 
 @Component
-class QuantityBasedDiscountStrategy(private val quantityDiscountRetrieval: QuantityDiscountRetrieval) : DiscountStrategy {
+class PercentageBasedDiscountStrategy(private val percentageDiscountRetrieval: PercentageDiscountRetrieval) : DiscountPolicyStrategy {
     override fun apply(order: Order): Order {
-        val discountValue = quantityDiscountRetrieval.getDiscountValue(order.quantity)
+        val discountValue = percentageDiscountRetrieval.getDiscountValue()
         val reversedValue = BigDecimal(100).subtract(discountValue)
         val discountedPrice = order.totalPrice.multiply(reversedValue).divide(BigDecimal(100))
         return Order.copy(order, discountedPrice)

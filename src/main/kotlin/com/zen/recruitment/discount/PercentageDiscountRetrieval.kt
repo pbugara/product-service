@@ -1,12 +1,12 @@
 package com.zen.recruitment.discount
 
+import com.zen.recruitment.discount.domain.Discount
 import com.zen.recruitment.discount.domain.PercentageDiscount
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import java.math.BigDecimal
 
-// todo: rename
 // todo: java docs
 @Component
 class PercentageDiscountRetrieval(private val discountService: DiscountService) {
@@ -15,17 +15,20 @@ class PercentageDiscountRetrieval(private val discountService: DiscountService) 
 
     fun getDiscountValue(): BigDecimal {
         val discounts = discountService.getDiscountsByType(DiscountType.PERCENTAGE)
-        if (discounts.isEmpty()) {
-            log.warn("No percentage discounts found in the database. Returning 0.")
-            return BigDecimal.ZERO
-        } else if (discounts.size > 1) {
-            log.warn("Multiple percentage discounts found in the database. Returning 0.")
+        if (!isDiscountValid(discounts)) {
             return BigDecimal.ZERO
         }
         val percentageDiscount = discounts[0] as PercentageDiscount
         return BigDecimal(percentageDiscount.percentage)
     }
-    // todo - store bigdecimal in db
-    // todo - refactor
-    // todo - valiadte if there is no overlap in the configs
+
+    fun isDiscountValid(discounts: List<Discount>): Boolean {
+        if (discounts.isEmpty() || discounts.size > 1) {
+            log.warn("Invalid discount configuration")
+            return false
+        }
+        val discount = discounts[0] as PercentageDiscount
+        val percentage = discount.percentage
+        return percentage in (1..100)
+    }
 }

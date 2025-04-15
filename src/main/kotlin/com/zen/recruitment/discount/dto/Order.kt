@@ -2,7 +2,7 @@ package com.zen.recruitment.discount.dto
 
 import java.math.BigDecimal
 
-data class Order(val totalPrice: BigDecimal, val quantity: Int) : Comparable<Order> {
+data class Order(val totalPrice: BigDecimal, val quantity: Int) {
 
     companion object {
         fun copy(order: Order, newTotalPrice: BigDecimal) : Order {
@@ -11,9 +11,5 @@ data class Order(val totalPrice: BigDecimal, val quantity: Int) : Comparable<Ord
                 quantity = order.quantity
             )
         }
-    }
-
-    override fun compareTo(other: Order): Int {
-        return this.totalPrice.compareTo(other.totalPrice)
     }
 }

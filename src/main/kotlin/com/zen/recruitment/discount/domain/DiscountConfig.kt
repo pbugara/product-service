@@ -1,6 +1,6 @@
 package com.zen.recruitment.discount.domain
 
-import com.zen.recruitment.discount.strategy.DiscountStrategyType
+import com.zen.recruitment.discount.strategy.interaction.DiscountStrategyType
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated

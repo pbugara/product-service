@@ -1,7 +1,13 @@
-package com.zen.recruitment.discount.strategy
+package com.zen.recruitment.discount.strategy.interaction
 
 import com.zen.recruitment.discount.DiscountConfigRepository
 import com.zen.recruitment.discount.domain.DiscountConfig
+import com.zen.recruitment.discount.strategy.interaction.CumulativeDiscountStrategy
+import com.zen.recruitment.discount.strategy.interaction.DiscountInteractionStrategy
+import com.zen.recruitment.discount.strategy.interaction.DiscountStrategyFactory
+import com.zen.recruitment.discount.strategy.interaction.DiscountStrategyType
+import com.zen.recruitment.discount.strategy.interaction.HigherDiscountStrategy
+import com.zen.recruitment.discount.strategy.interaction.NoDiscountStrategy
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.params.ParameterizedTest
@@ -12,42 +18,30 @@ import org.mockito.kotlin.whenever
 import kotlin.test.assertEquals
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class DiscountStrategyFactoryTest {
+class DiscountInteractionStrategyFactoryTest {
 
     private val discountConfigRepository = mock<DiscountConfigRepository>()
-    private val percentageBasedDiscountStrategy = mock<PercentageBasedDiscountStrategy>()
-    private val quantityBasedDiscountStrategy = mock<QuantityBasedDiscountStrategy>()
     private val higherDiscountStrategy = mock<HigherDiscountStrategy>()
-    private val lowerDiscountStrategy = mock<LowerDiscountStrategy>()
-    private val percentageThenQuantityDiscountStrategy = mock<PercentageThenQuantityDiscountStrategy>()
-    private val quantityThenPercentageDiscountStrategy = mock<QuantityThenPercentageDiscountStrategy>()
+    private val cumulativeDiscountStrategy = mock<CumulativeDiscountStrategy>()
     private val noDiscountStrategy = mock<NoDiscountStrategy>()
 
     private val uut = DiscountStrategyFactory(
         discountConfigRepository,
-        percentageBasedDiscountStrategy,
-        quantityBasedDiscountStrategy,
         higherDiscountStrategy,
-        lowerDiscountStrategy,
-        percentageThenQuantityDiscountStrategy,
-        quantityThenPercentageDiscountStrategy,
+        cumulativeDiscountStrategy,
         noDiscountStrategy
     )
 
     private fun strategyMapping() = listOf(
-            Arguments.of(DiscountStrategyType.PERCENTAGE, percentageBasedDiscountStrategy),
-            Arguments.of(DiscountStrategyType.QUANTITY, quantityBasedDiscountStrategy),
             Arguments.of(DiscountStrategyType.HIGHER, higherDiscountStrategy),
-            Arguments.of(DiscountStrategyType.LOWER, lowerDiscountStrategy),
-            Arguments.of(DiscountStrategyType.PERCENTAGE_THEN_QUANTITY, percentageThenQuantityDiscountStrategy),
-            Arguments.of(DiscountStrategyType.QUANTITY_THEN_PERCENTAGE, quantityThenPercentageDiscountStrategy),
+            Arguments.of(DiscountStrategyType.CUMULATIVE, cumulativeDiscountStrategy),
             Arguments.of(DiscountStrategyType.NO_DISCOUNT, noDiscountStrategy)
     )
 
     @ParameterizedTest
     @MethodSource("strategyMapping")
     fun `getActiveDiscountStrategy should return the correct discount strategy based on the active discount config`(discountStrategyType: DiscountStrategyType,
-                                                                                                                discountStrategy: DiscountStrategy) {
+                                                                                                                    discountInteractionStrategy: DiscountInteractionStrategy) {
         // Given
         val activeDiscountConfig = mock<DiscountConfig>()
         whenever(activeDiscountConfig.name).thenReturn(discountStrategyType)
@@ -57,7 +51,7 @@ class DiscountStrategyFactoryTest {
         val response = uut.getActiveDiscountStrategy()
 
         // Then
-        assertEquals(discountStrategy, response)
+        assertEquals(discountInteractionStrategy, response)
     }
 
     @Test

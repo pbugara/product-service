@@ -1,7 +1,7 @@
-package com.zen.recruitment.discount.strategy
+package com.zen.recruitment.discount.strategy.policy
 
 import com.zen.recruitment.discount.dto.Order
 
-interface DiscountStrategy {
+interface DiscountPolicyStrategy {
     fun apply(order: Order): Order
 }

@@ -5,8 +5,8 @@ import com.zen.recruitment.TestDataHelper.Companion.productPrice
 import com.zen.recruitment.TestDataHelper.Companion.quantity
 import com.zen.recruitment.TestDataHelper.Companion.totalPrice
 import com.zen.recruitment.discount.dto.Order
-import com.zen.recruitment.discount.strategy.DiscountStrategy
-import com.zen.recruitment.discount.strategy.DiscountStrategyFactory
+import com.zen.recruitment.discount.strategy.interaction.DiscountInteractionStrategy
+import com.zen.recruitment.discount.strategy.interaction.DiscountStrategyFactory
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.mock
@@ -16,7 +16,7 @@ class DiscountFacadeTest {
 
     private val discountStrategyFactory = mock<DiscountStrategyFactory>()
 
-    private val discountStrategy = mock<DiscountStrategy>()
+    private val discountInteractionStrategy = mock<DiscountInteractionStrategy>()
 
     private val uut: DiscountFacade = DiscountFacade(discountStrategyFactory)
 
@@ -27,8 +27,8 @@ class DiscountFacadeTest {
         val quantity = quantity
         val order = Order(totalPrice, quantity)
         val discountedOrder = Order(discountedPrice, quantity)
-        whenever(discountStrategyFactory.getActiveDiscountStrategy()).thenReturn(discountStrategy)
-        whenever(discountStrategy.apply(order)).thenReturn(discountedOrder)
+        whenever(discountStrategyFactory.getActiveDiscountStrategy()).thenReturn(discountInteractionStrategy)
+        whenever(discountInteractionStrategy.apply(order)).thenReturn(discountedOrder)
         // When
         val response = uut.calculateDiscountedPrice(productPrice, quantity)
 
