@@ -42,4 +42,34 @@ class ProductServiceTest {
         }
         assertEquals("Product with id $productId not found", exception.message)
     }
+
+    @Test
+    fun `getProductPriceById should return product price if found`() {
+        // Given
+        val productId = UUID.randomUUID()
+        val expectedPrice = TestDataHelper.getPriceProjection()
+
+        whenever(productRepository.findPriceById(productId)).thenReturn(expectedPrice)
+
+        // When
+        val response = uut.getProductPriceById(productId)
+
+        // Then
+        assertEquals(expectedPrice.getPrice(), response)
+    }
+
+    @Test
+    fun `getProductPriceById should throw ProductException when product not found`() {
+        // Given
+        val productId = UUID.randomUUID()
+
+        whenever(productRepository.findPriceById(productId)).thenReturn(null)
+
+        // When / Then
+        val exception = assertThrows<ProductException> {
+            uut.getProductPriceById(productId)
+        }
+        assertEquals("Product with id $productId not found", exception.message)
+    }
+
 }

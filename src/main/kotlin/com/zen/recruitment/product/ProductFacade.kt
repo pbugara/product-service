@@ -21,6 +21,13 @@ class ProductFacade(
         return ProductDetailsResponseDto.from(product)
     }
 
+    /**
+     * Get product price with discounts applied
+     *
+     * @param id UUID of the product
+     * @param quantity Quantity of the product
+     * @return ProductPriceResponseDto
+     */
     fun getProductPriceWithDiscounts(id: UUID, quantity: Int): ProductPriceResponseDto {
         val productPrice = productService.getProductPriceById(id)
         val discountedPrice = discountFacade.calculateDiscountedPrice(productPrice, quantity)

@@ -21,11 +21,19 @@ class ProductController(val productFacade: ProductFacade) {
         return productFacade.getProductById(id)
     }
 
+    /**
+     * Get product price with discounts applied
+     *
+     * @param id UUID of the product
+     * @param quantity Quantity of the product
+     * @return ProductPriceResponseDto
+     * @throws ProductException if the quantity is less than or equal to 0
+     */
     @GetMapping("/{id}/quantity/{quantity}/price")
     fun getProductPriceWithDiscounts(@PathVariable id: UUID,
                                      @PathVariable quantity: Int): ProductPriceResponseDto {
         if (quantity <= 0) {
-            throw ProductException.invalidQuantity(quantity)
+            throw ProductException.invalidQuantity()
         }
         return productFacade.getProductPriceWithDiscounts(id, quantity)
     }
