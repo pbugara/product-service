@@ -12,5 +12,9 @@ class ProductException private constructor(
         fun notFound(id: UUID): ProductException {
             return ProductException("Product with id $id not found", HttpStatus.NOT_FOUND)
         }
+
+        fun invalidQuantity(quantity: Int): ProductException {
+            return ProductException("Invalid quantity: $quantity", HttpStatus.BAD_REQUEST)
+        }
     }
 }

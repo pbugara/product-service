@@ -20,4 +20,13 @@ class ProductController(val productFacade: ProductFacade) {
     fun getProductById(@PathVariable id: UUID): ProductDetailsResponseDto {
         return productFacade.getProductById(id)
     }
+
+    @GetMapping("/{id}/quantity/{quantity}/price")
+    fun getProductPriceWithDiscounts(@PathVariable id: UUID,
+                                     @PathVariable quantity: Int): ProductPriceResponseDto {
+        if (quantity <= 0) {
+            throw ProductException.invalidQuantity(quantity)
+        }
+        return productFacade.getProductPriceWithDiscounts(id, quantity)
+    }
 }
