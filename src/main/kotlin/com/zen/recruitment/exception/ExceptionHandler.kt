@@ -24,18 +24,12 @@ class ExceptionHandler {
     @ExceptionHandler(MethodArgumentTypeMismatchException::class)
     fun handleInvalidUuid(ex: MethodArgumentTypeMismatchException, request: HttpServletRequest): ProblemDetail {
         log.error("Invalid argument type: ${ex.name} in request: ${request.requestURI}", ex)
-        val problem = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST)
-        problem.title = "Invalid request"
-        problem.detail = "Invalid method argument type"
-        return problem
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Invalid method argument type")
     }
 
     @ExceptionHandler(Exception::class)
     fun handleGenericException(exception: Exception): ProblemDetail {
         log.error("An unexpected error occurred", exception)
-        return ProblemDetail.forStatusAndDetail(
-            HttpStatus.INTERNAL_SERVER_ERROR,
-            "An unexpected error occurred"
-        )
+        return ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred")
     }
 }

@@ -6,12 +6,11 @@ import java.util.*
 
 class ProductException private constructor(
         override val message: String,
-        override val errorCode: String,
         override val status: HttpStatus
-) : BaseException(message, errorCode, status) {
+) : BaseException(message, status) {
     companion object {
         fun notFound(id: UUID): ProductException {
-            return ProductException("Product with id $id not found", "PRODUCT_NOT_FOUND", HttpStatus.NOT_FOUND)
+            return ProductException("Product with id $id not found", HttpStatus.NOT_FOUND)
         }
     }
 }
