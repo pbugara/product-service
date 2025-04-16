@@ -1,3 +1,7 @@
 ### Get Product by existing id
 GET {{host}}/api/v1/products/{{productId}}
 Accept: application/json
+
+### Get Product discounted price
+GET {{host}}/api/v1/products/{{productId}}/quantity/{{quantity}}/price
+Accept: application/json

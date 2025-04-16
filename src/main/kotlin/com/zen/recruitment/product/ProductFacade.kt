@@ -1,10 +1,14 @@
 package com.zen.recruitment.product
 
+import com.zen.recruitment.discount.DiscountFacade
 import org.springframework.stereotype.Component
 import java.util.*
 
 @Component
-class ProductFacade(val productService: ProductService) {
+class ProductFacade(
+        val productService: ProductService,
+        val discountFacade: DiscountFacade
+) {
 
     /**
      * Get product details by ID
@@ -15,5 +19,22 @@ class ProductFacade(val productService: ProductService) {
     fun getProductById(id: UUID): ProductDetailsResponseDto {
         val product = productService.getProductById(id)
         return ProductDetailsResponseDto.from(product)
+    }
+
+    /**
+     * Get product price with discounts applied
+     *
+     * @param id UUID of the product
+     * @param quantity Quantity of the product
+     * @return ProductPriceResponseDto
+     */
+    fun getProductPriceWithDiscounts(id: UUID, quantity: Int): ProductPriceResponseDto {
+        val productPrice = productService.getProductPriceById(id)
+        val discountedPrice = discountFacade.calculateDiscountedPrice(productPrice, quantity)
+        return ProductPriceResponseDto(
+                productId = id,
+                totalPrice = discountedPrice,
+                quantity = quantity
+        )
     }
 }
