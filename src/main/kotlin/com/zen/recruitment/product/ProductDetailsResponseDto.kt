@@ -1,6 +1,7 @@
 package com.zen.recruitment.product
 
 import java.math.BigDecimal
+import java.math.RoundingMode
 import java.util.*
 
 data class ProductDetailsResponseDto(
@@ -15,7 +16,7 @@ data class ProductDetailsResponseDto(
                     id = product.id,
                     name = product.name,
                     description = product.description,
-                    price = product.price
+                    price = product.price.setScale(2, RoundingMode.HALF_UP)
             )
         }
     }

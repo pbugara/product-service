@@ -15,7 +15,7 @@ class TestDataHelper {
         val productId: UUID = UUID.randomUUID()
         const val productName: String = "Sample Product"
         const val productDescription: String = "This is a sample product description."
-        val productPrice: BigDecimal = BigDecimal("100")
+        val productPrice: BigDecimal = BigDecimal("100").setScale(2, RoundingMode.HALF_UP)
         val quantity: Int = 10
         val totalPrice: BigDecimal = productPrice.multiply(BigDecimal(quantity))
         val discountedPrice = totalPrice.divide(BigDecimal(2)).setScale(2, RoundingMode.HALF_UP)

@@ -25,7 +25,7 @@ CREATE UNIQUE INDEX unique_discount_type ON discount(type);
 
 CREATE TABLE percentage_discount (
      id BIGINT PRIMARY KEY,
-     percentage INTEGER NOT NULL CHECK (percentage >= 0),
+     percentage INTEGER NOT NULL CHECK (percentage >= 0 and percentage <= 100),
      CONSTRAINT fk_percentage_discount
          FOREIGN KEY (id)
              REFERENCES discount(id)
@@ -44,7 +44,7 @@ CREATE TABLE quantity_discount_configs (
     id BIGINT PRIMARY KEY,
     min_qty INTEGER NOT NULL CHECK (min_qty > 0),
     max_qty INTEGER,
-    percentage INTEGER NOT NULL CHECK (percentage >= 0),
+    percentage INTEGER NOT NULL CHECK (percentage >= 0 AND percentage <= 100),
     discount_id BIGINT NOT NULL,
     CONSTRAINT fk_quantity_config_discount
        FOREIGN KEY (discount_id)
