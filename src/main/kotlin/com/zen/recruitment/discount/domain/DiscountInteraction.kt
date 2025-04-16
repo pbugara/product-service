@@ -4,15 +4,16 @@ import com.zen.recruitment.discount.strategy.interaction.DiscountStrategyType
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
+import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
 import jakarta.persistence.Table
-import java.util.*
 
 @Entity
-@Table(name = "discount_config")
-data class DiscountConfig(
+@Table(name = "discount_interaction")
+data class DiscountInteraction(
         @Id
-        val id: UUID = UUID.randomUUID(),
+        @GeneratedValue
+        val id: Long,
 
         @Enumerated(EnumType.STRING)
         val name: DiscountStrategyType,

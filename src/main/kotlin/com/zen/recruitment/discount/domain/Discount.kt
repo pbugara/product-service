@@ -5,10 +5,10 @@ import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
 import jakarta.persistence.Inheritance
-import jakarta.persistence.InheritanceType.SINGLE_TABLE
+import jakarta.persistence.InheritanceType.JOINED
 
 @Entity
-@Inheritance(strategy = SINGLE_TABLE)
+@Inheritance(strategy = JOINED)
 @DiscriminatorColumn(name = "type")
 abstract class Discount(
         @Id

@@ -4,6 +4,7 @@ import com.zen.recruitment.discount.dto.Order
 import com.zen.recruitment.discount.strategy.interaction.DiscountStrategyFactory
 import org.springframework.stereotype.Component
 import java.math.BigDecimal
+import java.math.RoundingMode
 
 @Component
 class DiscountFacade(private val discountStrategyFactory: DiscountStrategyFactory) {
@@ -21,6 +22,6 @@ class DiscountFacade(private val discountStrategyFactory: DiscountStrategyFactor
         val order = Order(totalPriceBeforeDiscounts, quantity)
         val discountStrategy = discountStrategyFactory.getActiveDiscountStrategy()
         val discountedOrder = discountStrategy.apply(order)
-        return discountedOrder.totalPrice
+        return discountedOrder.totalPrice.setScale(2, RoundingMode.HALF_UP)
     }
 }

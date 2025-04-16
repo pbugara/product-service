@@ -5,6 +5,7 @@ import com.zen.recruitment.product.ProductDetailsResponseDto
 import com.zen.recruitment.product.ProductPriceProjection
 import com.zen.recruitment.product.ProductPriceResponseDto
 import java.math.BigDecimal
+import java.math.RoundingMode
 import java.util.*
 
 class TestDataHelper {
@@ -17,7 +18,7 @@ class TestDataHelper {
         val productPrice: BigDecimal = BigDecimal("100")
         val quantity: Int = 10
         val totalPrice: BigDecimal = productPrice.multiply(BigDecimal(quantity))
-        val discountedPrice = totalPrice.divide(BigDecimal(2))
+        val discountedPrice = totalPrice.divide(BigDecimal(2)).setScale(2, RoundingMode.HALF_UP)
 
         fun getProduct(): Product {
             return Product(

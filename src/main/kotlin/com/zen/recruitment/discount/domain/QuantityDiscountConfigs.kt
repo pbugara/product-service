@@ -12,7 +12,7 @@ class QuantityDiscountConfigs(
         @GeneratedValue
         val id: Long? = null,
         val minQty: Int,
-        val maxQty: Int,
+        val maxQty: Int?,
         val percentage: Int,
         @ManyToOne
         @JoinColumn(name = "discount_id")
